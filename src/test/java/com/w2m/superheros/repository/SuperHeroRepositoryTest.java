@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,6 +37,13 @@ public class SuperHeroRepositoryTest {
         List<SuperHero> superHeroList = superHeroRepository.findAll();
         assertTrue(superHeroList.containsAll(List.of(superman, thor, batman)));
         assertEquals(3, superHeroList.size());
+    }
+
+    @Test
+    public void returnASuperHeroWhenFindById() {
+        Optional<SuperHero> superHero = superHeroRepository.findById(2L);
+        assertTrue(superHero.isPresent());
+        assertEquals(thor, superHero.get());
     }
 }
 
