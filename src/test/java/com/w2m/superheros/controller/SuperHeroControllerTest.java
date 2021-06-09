@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @ExtendWith(SpringExtension.class)
@@ -39,7 +40,11 @@ public class SuperHeroControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/superheros")
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(jsonPath("$", hasSize(2))).andDo(print());
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2))).andDo(print())
+                .andExpect(jsonPath("$[0].name").value("Superman"))
+                .andExpect(jsonPath("$[1].name").value("Batman"));
     }
 
 
