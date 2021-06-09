@@ -26,7 +26,9 @@ public class SuperHeroController {
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id) throws Exception {
-        return ResponseEntity.ok().body(superHeroService.findById(id).get());
+        SuperHero superHero = superHeroService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("SuperHero not found with id " + id));
+        return ResponseEntity.ok().body(superHero);
     }
 
 }
