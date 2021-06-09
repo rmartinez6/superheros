@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -45,6 +46,18 @@ public class SuperHeroControllerTest {
                 .andExpect(jsonPath("$", hasSize(2))).andDo(print())
                 .andExpect(jsonPath("$[0].name").value("Superman"))
                 .andExpect(jsonPath("$[1].name").value("Batman"));
+    }
+
+    @Test
+    void getASuperHeroWhenCallGetSuperHeroById() throws Exception {
+
+        when(superHeroService.findById(1L)).thenReturn(Optional.of(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis")));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/superheros/1")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Superman"));
     }
 
 
