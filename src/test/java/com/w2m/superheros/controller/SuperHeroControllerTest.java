@@ -60,5 +60,16 @@ public class SuperHeroControllerTest {
                 .andExpect(jsonPath("$.name").value("Superman"));
     }
 
+    @Test
+    void getErrorWhenCallGetSuperHeroByIdNotFound() throws Exception {
+
+        when(superHeroService.findById(1L)).thenReturn(Optional.of(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis")));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/superheros/2")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("SuperHero not found with id 2"));
+    }
 
 }
