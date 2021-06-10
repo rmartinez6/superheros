@@ -4,8 +4,6 @@ import com.w2m.superheros.domain.SuperHero;
 import com.w2m.superheros.repository.SuperHeroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +22,7 @@ public class SuperHeroService {
     }
 
     public List<SuperHero> findByName(String name) {
-        return new ArrayList<>();
+        return superHeroRepository.findByNameContainingIgnoreCase(name);
     }
 
 }
