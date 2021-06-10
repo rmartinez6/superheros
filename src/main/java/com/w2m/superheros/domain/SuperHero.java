@@ -1,6 +1,7 @@
 package com.w2m.superheros.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="SUPERHERO")
+@Builder
 public class SuperHero {
 
     @Id
