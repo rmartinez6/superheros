@@ -27,7 +27,7 @@ public class SuperHeroService {
     }
 
     public SuperHero update(Long id, SuperHero superHeroDetails) throws Exception {
-        SuperHero superHero = superHeroRepository.findById(id).get();
+        SuperHero superHero = superHeroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SuperHero not found with id " + id));;
         superHero.setName(superHeroDetails.getName());
         superHero.setFullName(superHeroDetails.getFullName());
         superHero.setPlaceOfBirth(superHeroDetails.getPlaceOfBirth());
