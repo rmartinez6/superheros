@@ -1,12 +1,10 @@
 package com.w2m.superheros.repository;
 
 import com.w2m.superheros.domain.SuperHero;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,6 +50,14 @@ public class SuperHeroRepositoryTest {
         List<SuperHero> superHeroList = superHeroRepository.findByNameContainingIgnoreCase("man");
         assertEquals(2, superHeroList.size());
         assertTrue(superHeroList.containsAll(List.of(superman, batman)));
+    }
+
+    @Test
+    public void updateSuperHeroData() {
+        SuperHero supermanUpdated = superman;
+        supermanUpdated.setPlaceOfBirth("Cordoba");
+        superHeroRepository.save(supermanUpdated);
+        assertEquals("Cordoba", superHeroRepository.findById(1L).get().getPlaceOfBirth());
     }
 }
 
