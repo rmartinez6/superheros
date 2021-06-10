@@ -41,4 +41,15 @@ public class SuperHeroServiceTest {
         assertEquals(superman.getName(), superHero.get().getName());
     }
 
+    @Test
+    void getSuperHerosByName() throws Exception {
+        List<SuperHero> superHeroListExpected = new ArrayList<>();
+        superHeroListExpected.add(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis"));
+        superHeroListExpected.add(new SuperHero(2L,"Batman","Bruce Wayne'","Ciudad Gotica"));
+        String valueName = "man";
+        when(superHeroRepository.findByNameContainingIgnoreCase(valueName)).thenReturn(superHeroListExpected);
+        List<SuperHero> superHeroList = superHeroService.findByName(valueName);
+        assertEquals(superHeroListExpected.size(), superHeroList.size());
+    }
+
 }
