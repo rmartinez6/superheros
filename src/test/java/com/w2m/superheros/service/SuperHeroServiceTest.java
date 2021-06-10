@@ -9,7 +9,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +49,16 @@ public class SuperHeroServiceTest {
         when(superHeroRepository.findByNameContainingIgnoreCase(valueName)).thenReturn(superHeroListExpected);
         List<SuperHero> superHeroList = superHeroService.findByName(valueName);
         assertEquals(superHeroListExpected.size(), superHeroList.size());
+    }
+
+    @Test
+    void updateSuperHeroById() throws Exception {
+        SuperHero supermanUpdated = superman;
+        supermanUpdated.setPlaceOfBirth("Cordoba");
+        when(superHeroRepository.findById(1L)).thenReturn(Optional.of(superman));
+        when(superHeroRepository.save(supermanUpdated)).thenReturn(supermanUpdated);
+        SuperHero superHero = superHeroService.update(1L, supermanUpdated);
+        assertEquals(supermanUpdated.getName(), superHero.getName());
     }
 
 }
