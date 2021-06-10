@@ -36,4 +36,9 @@ public class SuperHeroController {
         return ResponseEntity.ok().body(superHero);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody SuperHero superHero) throws Exception {
+        return ResponseEntity.ok().body(superHeroService.update(id, superHero));
+    }
+
 }
