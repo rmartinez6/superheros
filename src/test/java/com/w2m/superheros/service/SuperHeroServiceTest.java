@@ -1,7 +1,9 @@
 package com.w2m.superheros.service;
 
 import com.w2m.superheros.domain.SuperHero;
+import com.w2m.superheros.exception.ResourceNotFoundException;
 import com.w2m.superheros.repository.SuperHeroRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,5 +62,16 @@ public class SuperHeroServiceTest {
         SuperHero superHero = superHeroService.update(1L, supermanUpdated);
         assertEquals(supermanUpdated.getName(), superHero.getName());
     }
+
+    @Test
+    void errorWhenUpdatedSuperHeroWithIdNotFound() throws Exception {
+        SuperHero supermanUpdated = superman;
+        supermanUpdated.setPlaceOfBirth("Cordoba");
+        when(superHeroRepository.findById(20L)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            superHeroService.update(20L, supermanUpdated);
+        });
+    }
+
 
 }
