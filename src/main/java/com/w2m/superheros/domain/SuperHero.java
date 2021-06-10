@@ -3,7 +3,6 @@ package com.w2m.superheros.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @Entity
@@ -14,7 +13,6 @@ import javax.persistence.*;
 public class SuperHero {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="ID")
     private Long id;
     @Column(name="NAME")
