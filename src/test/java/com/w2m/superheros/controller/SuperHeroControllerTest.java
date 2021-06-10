@@ -72,4 +72,24 @@ public class SuperHeroControllerTest {
                 .andExpect(jsonPath("$.message").value("SuperHero not found with id 2"));
     }
 
+    @Test
+    void getSuperHerosWhenCallGetSuperHeroByName() throws Exception {
+
+        List<SuperHero> superHeroList = new ArrayList<SuperHero>();
+        superHeroList.add(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis"));
+        superHeroList.add(new SuperHero(2L,"Batman","Bruce Wayne", "Ciudad Gotica"));
+
+        when(superHeroService.findByName("man")).thenReturn(superHeroList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/superheros?name=man")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2))).andDo(print())
+                .andExpect(jsonPath("$[0].name").value("Superman"))
+                .andExpect(jsonPath("$[1].name").value("Batman"));
+    }
+
+
+
 }
