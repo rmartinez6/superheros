@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,13 +30,13 @@ public class SuperHeroControllerTest {
     @MockBean
     private SuperHeroService superHeroService;
 
+    private static final SuperHero superman = new SuperHero(1L, "Superman", "Clark Joseph Kent", "Metropolis");
+    private static final SuperHero batman = new SuperHero(2L, "Batman","Bruce Wayne'","Ciudad Gotica");
+
 
     @Test
     void getAllSuperHerosWhenCallGetAllSuperherosEndpoint() throws Exception {
-        List<SuperHero> superHeroList = new ArrayList<SuperHero>();
-        superHeroList.add(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis"));
-        superHeroList.add(new SuperHero(2L,"Batman","Bruce Wayne", "Ciudad Gotica"));
-        when(superHeroService.findAll()).thenReturn(superHeroList);
+        when(superHeroService.findAll()).thenReturn(List.of(superman, batman));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/superheros")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -51,7 +50,7 @@ public class SuperHeroControllerTest {
     @Test
     void getASuperHeroWhenCallGetSuperHeroById() throws Exception {
 
-        when(superHeroService.findById(1L)).thenReturn(Optional.of(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis")));
+        when(superHeroService.findById(1L)).thenReturn(Optional.of(superman));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/superheros/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -63,7 +62,7 @@ public class SuperHeroControllerTest {
     @Test
     void getErrorWhenCallGetSuperHeroByIdNotFound() throws Exception {
 
-        when(superHeroService.findById(1L)).thenReturn(Optional.of(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis")));
+        when(superHeroService.findById(1L)).thenReturn(Optional.of(superman));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/superheros/2")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,11 +74,7 @@ public class SuperHeroControllerTest {
     @Test
     void getSuperHerosWhenCallGetSuperHeroByName() throws Exception {
 
-        List<SuperHero> superHeroList = new ArrayList<SuperHero>();
-        superHeroList.add(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis"));
-        superHeroList.add(new SuperHero(2L,"Batman","Bruce Wayne", "Ciudad Gotica"));
-
-        when(superHeroService.findByName("man")).thenReturn(superHeroList);
+        when(superHeroService.findByName("man")).thenReturn(List.of(superman, batman));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/superheros?name=man")
                 .contentType(MediaType.APPLICATION_JSON)
