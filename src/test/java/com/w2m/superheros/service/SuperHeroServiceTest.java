@@ -22,19 +22,21 @@ public class SuperHeroServiceTest {
     @MockBean
     private SuperHeroRepository superHeroRepository;
 
+    private static final SuperHero superman = new SuperHero(1L, "Superman", "Clark Joseph Kent", "Metropolis");
+    private static final SuperHero thor = new SuperHero(2L, "Thor","Thor Odinson","Asgard");
+    private static final SuperHero batman = new SuperHero(3L, "Batman","Bruce Wayne'","Ciudad Gotica");
+
+
     @Test
     void getAllSuperHeros(){
-        List<SuperHero> superHeroListExpected = new ArrayList<>();
-        superHeroListExpected.add(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis"));
-        superHeroListExpected.add(new SuperHero(2L,"Thor","Thor Odinson","Asgard"));
+        List<SuperHero> superHeroListExpected = List.of(superman, thor);
         when(superHeroRepository.findAll()).thenReturn(superHeroListExpected);
         List<SuperHero> superHeroList = superHeroService.findAll();
         assertEquals(superHeroListExpected.size(), superHeroList.size());
     }
 
     @Test
-    void getAllSuperHeroById() throws Exception {
-        SuperHero superman = new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis");
+    void getSuperHeroById() throws Exception {
         when(superHeroRepository.findById(1L)).thenReturn(Optional.of(superman));
         Optional<SuperHero> superHero = superHeroService.findById(1L);
         assertTrue(superHero.isPresent());
@@ -43,9 +45,7 @@ public class SuperHeroServiceTest {
 
     @Test
     void getSuperHerosByName() throws Exception {
-        List<SuperHero> superHeroListExpected = new ArrayList<>();
-        superHeroListExpected.add(new SuperHero(1L,"Superman","Clark Joseph Kent","Metropolis"));
-        superHeroListExpected.add(new SuperHero(2L,"Batman","Bruce Wayne'","Ciudad Gotica"));
+        List<SuperHero> superHeroListExpected = List.of(superman, batman);
         String valueName = "man";
         when(superHeroRepository.findByNameContainingIgnoreCase(valueName)).thenReturn(superHeroListExpected);
         List<SuperHero> superHeroList = superHeroService.findByName(valueName);
