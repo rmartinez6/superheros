@@ -85,6 +85,30 @@ public class SuperHeroControllerTest {
                 .andExpect(jsonPath("$[1].name").value("Batman"));
     }
 
+    @Test
+    void updateSomeDataOfASuperHero() throws Exception {
+
+        SuperHero supermanUpdated = superman;
+        supermanUpdated.setFullName("Clark Kent");
+        supermanUpdated.setPlaceOfBirth("Cordoba");
+        when(superHeroService.update(1L, supermanUpdated)).thenReturn((supermanUpdated));
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/superheros/1")
+                .content("{\n" +
+                        "    \"id\": 1,\n" +
+                        "    \"name\": \"Superman\",\n" +
+                        "    \"fullName\": \"Clark Kent\",\n" +
+                        "    \"placeOfBirth\": \"Cordoba\"\n" +
+                        "}")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("Superman"))
+                .andExpect(jsonPath("$.fullName").value("Clark Kent"))
+                .andExpect(jsonPath("$.placeOfBirth").value("Cordoba"));
+
+    }
 
 
 }
