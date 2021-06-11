@@ -4,6 +4,7 @@ import com.w2m.superheros.domain.SuperHero;
 import com.w2m.superheros.service.SuperHeroService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -108,6 +109,15 @@ public class SuperHeroControllerTest {
                 .andExpect(jsonPath("$.fullName").value("Clark Kent"))
                 .andExpect(jsonPath("$.placeOfBirth").value("Cordoba"));
 
+    }
+
+    @Test
+    void deleteASuperHeroById() throws Exception {
+
+        Mockito.doNothing().when(superHeroService).delete(1L);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/superheros/1")
+        )
+                .andExpect(status().isNoContent());
     }
 
 
