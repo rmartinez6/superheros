@@ -7,8 +7,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import java.util.List;
 import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class SuperHeroRepositoryTest {
@@ -58,6 +58,15 @@ public class SuperHeroRepositoryTest {
         supermanUpdated.setPlaceOfBirth("Cordoba");
         superHeroRepository.save(supermanUpdated);
         assertEquals("Cordoba", superHeroRepository.findById(1L).get().getPlaceOfBirth());
+    }
+
+    @Test
+    public void deleteASuperHero() {
+        assertTrue(superHeroRepository.findById(1L).isPresent());
+        assertEquals(3, superHeroRepository.findAll().size());
+        superHeroRepository.delete(superman);
+        assertFalse(superHeroRepository.findById(1L).isPresent());
+        assertEquals(2, superHeroRepository.findAll().size());
     }
 }
 
