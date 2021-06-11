@@ -34,8 +34,9 @@ public class SuperHeroService {
         return superHeroRepository.save(superHero);
     }
 
-    public void delete (Long id) {
-
+    public void delete (Long id) throws Exception{
+        SuperHero superHero = superHeroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("SuperHero not found with id " + id));;
+        superHeroRepository.delete(superHero);
     }
 
 }
