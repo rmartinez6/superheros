@@ -1,5 +1,6 @@
 package com.w2m.superheros.controller;
 
+import com.w2m.superheros.annotation.LogExecutionTime;
 import com.w2m.superheros.domain.SuperHero;
 import com.w2m.superheros.exception.ResourceNotFoundException;
 import com.w2m.superheros.service.SuperHeroService;
@@ -17,6 +18,7 @@ public class SuperHeroController {
     @Autowired
     SuperHeroService superHeroService;
 
+    @LogExecutionTime
     @GetMapping()
     public ResponseEntity get(@RequestParam(required = false) String name){
         List<SuperHero> superHeroList;
@@ -28,6 +30,7 @@ public class SuperHeroController {
 
     }
 
+    @LogExecutionTime
     @GetMapping("/{id}")
     public ResponseEntity getById(@PathVariable("id") Long id) throws ResourceNotFoundException {
         SuperHero superHero = superHeroService.findById(id)
@@ -35,11 +38,13 @@ public class SuperHeroController {
         return ResponseEntity.ok().body(superHero);
     }
 
+    @LogExecutionTime
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody SuperHero superHero) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(superHeroService.update(id, superHero));
     }
 
+    @LogExecutionTime
     @DeleteMapping({"/{id}"})
     public ResponseEntity delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
         superHeroService.delete(id);
