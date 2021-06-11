@@ -5,6 +5,7 @@ import com.w2m.superheros.exception.ResourceNotFoundException;
 import com.w2m.superheros.repository.SuperHeroRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -70,6 +71,15 @@ public class SuperHeroServiceTest {
         when(superHeroRepository.findById(20L)).thenReturn(Optional.empty());
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
             superHeroService.update(20L, supermanUpdated);
+        });
+    }
+
+    @Test
+    void deleteSuperHeroById() throws Exception {
+        when(superHeroRepository.findById(1L)).thenReturn(Optional.of(superman));
+        Mockito.doNothing().when(superHeroRepository).delete(superman);
+        Assertions.assertDoesNotThrow(() -> {
+            superHeroService.delete(1L);
         });
     }
 
