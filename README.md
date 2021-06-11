@@ -18,3 +18,13 @@ un BasicAuth con las credenciales:
 username: admin
 
 password: 1234 
+
+### Docker
+
+Generar imagen docker
+
+docker build -t superheros:1.0.0 .  
+
+Levantar imagen generada
+
+docker run -it -p8080:8080 superheros:1.0.0
