@@ -29,19 +29,19 @@ public class SuperHeroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity getById(@PathVariable("id") Long id) throws ResourceNotFoundException {
         SuperHero superHero = superHeroService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("SuperHero not found with id " + id));
         return ResponseEntity.ok().body(superHero);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody SuperHero superHero) throws Exception {
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody SuperHero superHero) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(superHeroService.update(id, superHero));
     }
 
     @DeleteMapping({"/{id}"})
-    public ResponseEntity delete(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
         superHeroService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -38,7 +38,7 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    void getSuperHeroById() throws Exception {
+    void getSuperHeroById(){
         when(superHeroRepository.findById(1L)).thenReturn(Optional.of(superman));
         Optional<SuperHero> superHero = superHeroService.findById(1L);
         assertTrue(superHero.isPresent());
@@ -46,7 +46,7 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    void getSuperHerosByName() throws Exception {
+    void getSuperHerosByName(){
         List<SuperHero> superHeroListExpected = List.of(superman, batman);
         String valueName = "man";
         when(superHeroRepository.findByNameContainingIgnoreCase(valueName)).thenReturn(superHeroListExpected);
@@ -55,7 +55,7 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    void updateSuperHeroById() throws Exception {
+    void updateSuperHeroById() throws ResourceNotFoundException {
         SuperHero supermanUpdated = superman;
         supermanUpdated.setPlaceOfBirth("Cordoba");
         when(superHeroRepository.findById(1L)).thenReturn(Optional.of(superman));
@@ -65,7 +65,7 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    void errorWhenUpdatedSuperHeroWithIdNotFound() throws Exception {
+    void errorWhenUpdatedSuperHeroWithIdNotFound(){
         SuperHero supermanUpdated = superman;
         supermanUpdated.setPlaceOfBirth("Cordoba");
         when(superHeroRepository.findById(20L)).thenReturn(Optional.empty());
@@ -75,7 +75,7 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    void deleteSuperHeroById() throws Exception {
+    void deleteSuperHeroById() {
         when(superHeroRepository.findById(1L)).thenReturn(Optional.of(superman));
         Mockito.doNothing().when(superHeroRepository).delete(superman);
         Assertions.assertDoesNotThrow(() -> {
