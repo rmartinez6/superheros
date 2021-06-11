@@ -34,4 +34,8 @@ public class SuperHeroService {
         return superHeroRepository.save(superHero);
     }
 
+    public void delete (Long id) {
+
+    }
+
 }
